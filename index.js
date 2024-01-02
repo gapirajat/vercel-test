@@ -15,6 +15,10 @@ router.get('/', (req, res) => {
   res.send('Hello from API!')
 })
 
+router.post('/', (req, res) => {
+  res.json('Hello from API!')
+})
+
 // Using the router middleware in the app
 app.use('/api', router)
 
