@@ -1,39 +1,23 @@
 const express = require("express");
-
-const app = express();
-const router = express.Router()
-
-// // Export the Express API
-// module.exports = app;
 const cors = require("cors");
+const app = express();
 app.use(express.json());
 app.use(cors());
 
 
-// Defining a route handler for GET request on /api
-router.get('/', (req, res) => {
-  res.send('Hello from API!')
-})
+const db = require("./models");
 
-router.post('/', (req, res) => {
-  res.json('Hello from API!')
-})
-
-// Using the router middleware in the app
-app.use('/api', router)
-
-
+const userRouter = require("./routes/User");
+app.use("/auth", userRouter);
 
 // async function main() {
 //   await db.sequelize.sync({force:true})
 // }
 
 // main()
-app.listen(3001, () => {
-  console.log("Server running on port 3000");
-});
-// db.sequelize.sync().then((result) => {
-//     app.listen(3000, () => {
-//       console.log("Server running on port 3000");
-//     });
-//   });
+
+db.sequelize.sync().then((result) => {
+    app.listen(3000, () => {
+      console.log("Server running on port 3000");
+    });
+  });
