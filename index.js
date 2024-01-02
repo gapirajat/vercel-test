@@ -2,19 +2,20 @@ const express = require("express");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Express on Vercel");
-});
-
 // // Export the Express API
 // module.exports = app;
-const express = require("express");
 const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
 
+// Defining a route handler for GET request on /api
+router.get('/', (req, res) => {
+  res.send('Hello from API!')
+})
 
+// Using the router middleware in the app
+app.use('/api', router)
 
 
 
