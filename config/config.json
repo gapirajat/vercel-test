@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "postgres.vribtpkclmbrfzhlqkru",
-    "password": "tZYW3FncnUeEEp8O",
-    "database": "postgres",
-    "host": "aws-0-ap-south-1.pooler.supabase.com",
-    "port": 5432,
-    "dialect": "postgres"
+    "username": "Abhishek",
+    "password": "Root",
+    "database": "database1",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql"
   },
   "test": {
     "username": "postgres.vribtpkclmbrfzhlqkru",
