@@ -1,12 +1,13 @@
 'use strict';
 const { Model } = require('sequelize');
 const Product = require('./projectdatabase');
+const Post = require("./post")
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(models.Product, { foreignKey: 'UserID' });
-     
+      User.hasMany(models.Post, { foreignKey: 'email' });
     }
   }
   
