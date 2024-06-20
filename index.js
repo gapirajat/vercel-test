@@ -16,6 +16,8 @@ const db = require("./models/index");
 
 const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
+const ChatRouter = require("./routes/ChatRoute");
+app.use("/chat", ChatRouter);
 
 // async function main() {
 //   await db.sequelize.sync({force:true})
@@ -24,7 +26,7 @@ app.use("/auth", userRouter);
 // main()
 
 
-db.sequelize.sync({force:true}).then((result) => {
+db.sequelize.sync({alter:true}).then((result) => {
     app.listen(3000, () => {
       console.log("Server running on port 3000");
     });
