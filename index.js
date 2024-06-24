@@ -18,6 +18,8 @@ const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
 const ChatRouter = require("./routes/ChatRoute");
 app.use("/chat", ChatRouter);
+const postRouter = require("./routes/postRoute");
+app.use("/post", postRouter);
 
 // async function main() {
 //   await db.sequelize.sync({force:true})
