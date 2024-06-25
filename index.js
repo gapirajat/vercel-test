@@ -23,7 +23,7 @@ app.use("/auth", userRouter);
 
 // main()
 
-db.sequelize.sync().then((result) => {
+db.sequelize.sync({alter: true}).then((result) => {
     app.listen(3000, () => {
       console.log("Server running on port 3000");
     });
