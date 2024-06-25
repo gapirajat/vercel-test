@@ -1,12 +1,20 @@
 'use strict';
-const { Model, DataTypes } = require('sequelize');
+const { Model} = require('sequelize');
 
 module.exports = (sequelize,DataTypes) => {
-    class Post extends Model {}
+    class Post extends Model {   
+      static associate(models) {
+        Post.belongsTo(models.User, { foreignKey: 'email' });
+      }
+  
+    }
+   
     Post.init({
         Post_Id:{
           type:DataTypes.INTEGER,
-          allowNull: false
+          allowNull: false,
+          primaryKey:true,
+          autoIncrement: true
         },
         Post_name: {
             type: DataTypes.STRING,
@@ -56,6 +64,13 @@ module.exports = (sequelize,DataTypes) => {
             type:DataTypes.STRING,
             allowNull: false
            },
+           email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            references: {
+              model: 'User',
+              key: 'email'
+            }},   
            CreatedAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
