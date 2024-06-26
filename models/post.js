@@ -68,9 +68,10 @@ module.exports = (sequelize,DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             references: {
-              model: 'User',
+              model: 'users',
               key: 'email'
-            }},   
+            }
+          }, 
            CreatedAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
