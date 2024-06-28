@@ -20,7 +20,7 @@ module.exports = (sequelize,DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
           },
-          maxBudget:{
+          maxBuget:{
             type: DataTypes.INTEGER,
             allowNull:false
           },
@@ -48,7 +48,7 @@ module.exports = (sequelize,DataTypes) => {
             type:DataTypes.STRING,
             allowNull:false
            },
-           category_chosen:{
+           catgory_chosen:{
             type:DataTypes.STRING,
             allowNull:false
            },
