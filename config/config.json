@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "Abhishek",
-    "password": "Root",
-    "database": "database1",
+    "username": "root",
+    "password": "F22RAPTOR",
+    "database": "mysql",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql"
