@@ -9,8 +9,7 @@ const corsOption = {
     origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
-    allowedHeaders: ['Content-Type', 'accessToken'],
-    aces
+    allowedHeaders: ['Content-Type', 'accessToken']
 }
 app.use(cors(corsOption));
 const db = require("./models/index");
