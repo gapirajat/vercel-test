@@ -18,6 +18,10 @@ function handleSequelizeError(error, res) {
     });
   } else {
     // Handle other types of errors or unknown errors
+    process.on('uncaughtException', function (err) {
+        console.error(err);
+        console.log("Node NOT Exiting...");
+      });
     return res.status(500).json({
       error: 'Internal Server Error',
       details: error.message

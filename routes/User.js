@@ -193,6 +193,7 @@ router.put("/update/:newLogin", validateToken, async (req, res) => {
       await t.rollback();
     }
     handleSequelizeError(error,res);
+    return;
 
   }
 });

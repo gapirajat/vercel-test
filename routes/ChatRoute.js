@@ -43,10 +43,14 @@ router.post("/send", validateToken, async (req, res) => {
 router.get("/messages", validateToken, async (req, res) => {
   const receiver = req.query.of;
   const pid = req.query.pid;
-  console.log(receiver, pid);
 
 
-  try {
+
+  try { 
+    console.log(receiver, pid);
+    if(req.user.id==receiver) {
+      return res.status(500).json({error: "Invalid"})
+    }
     const messages = await Chat.findAll({
       where: {
         [Op.or]: [
