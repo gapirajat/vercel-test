@@ -1,14 +1,26 @@
 'use strict';
 const { Model } = require('sequelize');
 const Product = require('./projectdatabase');
-const Post = require("./post")
+const Post = require("./post");
+const Chat = require('./chatmodel');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
+      User.hasMany(models.Post, { foreignKey: 'email' });
+      User.hasMany(models.Chat, { foreignKey: 'sender', as: 'send' });
+      User.hasMany(models.Chat, { foreignKey: 'receiver', as: 'receive' });
     }
   }
   
   User.init({
+    uid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true, 
+      index: true, 
+      primaryKey:true,
+      autoIncrement: true
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
       unique: true, 
       index: true, 
     },
@@ -26,7 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     cin: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'pending',
+      unique: true
     },
     status: {
       type: DataTypes.ENUM,
@@ -52,8 +65,27 @@ module.exports = (sequelize, DataTypes) => {
      },
      company_desc:{
       type:DataTypes.STRING,
-      allowNull:false
+      allowNull:false,
+      defaultValue: 'pending'
      },
+     c_email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true, 
+      index: true, 
+    },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    social: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   }, {
     sequelize,
     modelName: 'User',

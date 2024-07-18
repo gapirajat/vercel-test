@@ -4,26 +4,34 @@ const { Chat, User } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 const { Op } = require("sequelize");
 
-// Send a new message
+// Send a new message .../chat/send?to=1&pid=1
 router.post("/send", validateToken, async (req, res) => {
-    
-  const { message, receiverEmail, senderEmail } = req.body;
+  const to = req.query.to;
+  const pid = req.query.pid;
+  const { message } = req.body;
+  // console.log(to,pid,message)
   
    console.log(req.body +"This is error");
   try {
-    const sender = await User.findOne({ where: { email: senderEmail } });
-    const receiver = await User.findOne({ where: { email: receiverEmail } });
+    //message cannot be sent to self
+    if(req.user.id==to) {
+      return res.status(500).json({error: "error"})
+    }
 
-    if (!receiver) {
-      return res.status(404).json({ error: "Receiver not found" });
+    const sender = await User.findOne({ where: { uid: req.user.id  } });
+    const receiver = await User.findOne({ where: { uid: to } });
+
+    if (!receiver || !sender) {
+      return res.status(404).json({ error: "user not found" });
     }
 
     const newMessage = await Chat.create({
+      pid: pid,
       message: message,
-      senderId: sender.email,
-      receiverId: receiver.email
+      sender: sender.uid,
+      receiver: receiver.uid,
     });
-    res.json(newMessage);
+    res.json(`Message Sent to`,receiver.name);//send proper response
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "An error occurred while sending the message" });
@@ -31,18 +39,19 @@ router.post("/send", validateToken, async (req, res) => {
 });
 
 // Get messages between two users
+//.../messages/message?of=1&pid=1
 router.get("/messages", validateToken, async (req, res) => {
-  const receiverEmail = req.query.message;
-  const senderEmail = req.query.message2;
-  console.log(receiverEmail, senderEmail);
+  const receiver = req.query.of;
+  const pid = req.query.pid;
+  console.log(receiver, pid);
 
 
   try {
     const messages = await Chat.findAll({
       where: {
         [Op.or]: [
-          { senderId: senderEmail, receiverId: receiverEmail },
-          { senderId: receiverEmail, receiverId: senderEmail }
+          { sender: req.user.id, receiver: receiver, pid: pid },
+          { sender: receiver, receiver: req.user.id, pid: pid }
         ]
       },
       order: [['createdAt', 'ASC']]

@@ -5,11 +5,20 @@ module.exports = (sequelize,DataTypes) => {
     class Post extends Model {   
       static associate(models) {
         Post.belongsTo(models.User, { foreignKey: 'email' });
+        Post.hasMany(models.Chat, { foreignKey: 'pid', as: 'postid' });
       }
   
     }
    
     Post.init({
+      pid: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true, 
+        index: true, 
+        primaryKey:true,
+        autoIncrement: true
+      },
       location: {
         type: DataTypes.STRING,
         allowNull: false
@@ -57,8 +66,7 @@ module.exports = (sequelize,DataTypes) => {
         references: {
           model: 'users',
           key: 'email'
-        },
-        primaryKey:true,
+        }
       }, 
        CreatedAt: {
         type: DataTypes.DATE,
@@ -76,3 +84,5 @@ module.exports = (sequelize,DataTypes) => {
       })
       return Post;
 }
+
+//updtae email to uid as primary key
