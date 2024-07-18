@@ -34,7 +34,7 @@ app.use("/post", postRouter);
 
 // main()
 
-
+export default app;
 
 db.sequelize.sync({force:true}).then((result) => {
     app.listen(3001, () => {
