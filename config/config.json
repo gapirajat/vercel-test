@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "root",
-    "password": "F22RAPTOR",
-    "database": "mysql",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "dialect": "mysql"
+    "username": "postgres.vribtpkclmbrfzhlqkru",
+    "password": "tZYW3FncnUeEEp8O",
+    "database": "postgres",
+    "host": "aws-0-ap-south-1.pooler.supabase.com",
+    "port": 5432,
+    "dialect": "postgres"
   },
   "test": {
     "username": "postgres.vribtpkclmbrfzhlqkru",
