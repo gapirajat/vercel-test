@@ -25,7 +25,6 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     handleSequelizeError(error, res);
-    res.status(500).json({ error: "An error occurred while creating!" });
     return;
   }
 
