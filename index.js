@@ -37,7 +37,7 @@ app.use("/post", postRouter);
 
 // export default app;
 
-db.sequelize.sync().then((result) => {
+db.sequelize.sync({alter:true}).then((result) => {
     app.listen(3001, () => {
       console.log("Server running on port 3001");
     });

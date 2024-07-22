@@ -11,6 +11,7 @@ const { Op } = require('sequelize');
 router.post("/create/:newLogin", validateToken, async (req, res) => {
     const newLogin  = req.params;
     console.log(req.params);
+    console.log("0")
     const t = await db.sequelize.transaction();
     try {
         const {
@@ -63,7 +64,7 @@ router.post("/create/:newLogin", validateToken, async (req, res) => {
             await t.rollback();
         }
         console.log(error)
-        res.status(500).json({ error: "An error occurred while updating the post!" });
+        res.status(500).json({ error: "An error occurred while creating the post!" });
 
     }
 });
@@ -129,90 +130,104 @@ router.get('/list', validateToken, async (req, res) => {
         project_size,
         sort
     } = req.query;
+    console.log("hi")
     console.log(req.query);
+    console.log("hi")
 
     // Build the filtering conditions
     const conditions = {};
-
-    if (location) {
-        if (Array.isArray(location)) {
-            conditions.location = { [Op.in]: location };
-        } else {
-            conditions.location = location;
-        }
-    }
-    if (sector_p) {
-        if (Array.isArray(sector_p)) {
-            conditions.sector_p = { [Op.in]: sector_p };
-        } else {
-            conditions.sector_p = sector_p;
-        }
-    }
-    if (budget_l) {
-        conditions.budget_l = { ...conditions.budget_l, [Op.gte]: budget_l };
-    }
-    if (budget_h) {
-        conditions.budget_h = { ...conditions.budget_h, [Op.lte]: budget_h };
-    }
-    if (duration_l) {
-        conditions.duration_l = { ...conditions.duration_l, [Op.gte]: duration_l };
-    }
-    if (duration_h) {
-        conditions.duration_h = { ...conditions.duration_h, [Op.lte]: duration_h };
-    }
-    if (exp) {
-        if (Array.isArray(exp)) {
-            conditions.exp = { [Op.in]: exp };
-        } else {
-            conditions.exp = exp;
-        }
-    }
-    if (skill) {
-        try {
-            const skillSet = JSON.parse(skill);
-            console.log(typeof skillSet)
-            const skillConditions = skillSet.map(s => Sequelize.literal(`skill::jsonb @> '"${s}"'`));
-            conditions[Op.and] = skillConditions;
-            console.log(skillConditions);
-        } catch (e) {
-            return res.status(400).json({ error: 'Invalid skill format' });
-        }
-    }
-    if (project_desc) {
-        if (Array.isArray(project_desc)) {
-            conditions.project_desc = { [Op.or]: project_desc.map(desc => ({ [Op.like]: `%${desc}%` })) };
-        } else {
-            conditions.project_desc = { [Op.like]: `%${project_desc}%` };
-        }
-    }
-    if (project_size) {
-        if (Array.isArray(project_size)) {
-            conditions.project_size = { [Op.in]: project_size };
-        } else {
-            conditions.project_size = project_size;
-        }
-    }
-
-    // Build the sorting criteria
     const order = [];
-    if (sort) {
-        const sortCriteria = Array.isArray(sort) ? sort : [sort];
-        sortCriteria.forEach(criteria => {
-            const [field, direction] = criteria.split(':');
-            if (['exp', 'skill', 'project_size'].includes(field)) {
-                order.push([field, direction === 'desc' ? 'DESC' : 'ASC']);
+
+    try {
+
+        if (location) {
+            if (Array.isArray(location)) {
+                conditions.location = { [Op.in]: location };
+            } else {
+                conditions.location = location;
             }
-        });
+        }
+        if (sector_p) {
+            if (Array.isArray(sector_p)) {
+                conditions.sector_p = { [Op.in]: sector_p };
+            } else {
+                conditions.sector_p = sector_p;
+            }
+        }
+        if (budget_l) {
+            conditions.budget_l = { ...conditions.budget_l, [Op.gte]: budget_l };
+        }
+        if (budget_h) {
+            conditions.budget_h = { ...conditions.budget_h, [Op.lte]: budget_h };
+        }
+        if (duration_l) {
+            conditions.duration_l = { ...conditions.duration_l, [Op.gte]: duration_l };
+        }
+        if (duration_h) {
+            conditions.duration_h = { ...conditions.duration_h, [Op.lte]: duration_h };
+        }
+        if (exp) {
+            if (Array.isArray(exp)) {
+                conditions.exp = { [Op.in]: exp };
+            } else {
+                conditions.exp = exp;
+            }
+        }
+        if (skill) {
+            try {
+                const skillSet = skill;
+                console.log(typeof skillSet)
+                const skillConditions = skillSet.map(s => Sequelize.literal(`skill::jsonb @> '"${s}"'`));
+                conditions[Op.and] = skillConditions;
+                console.log(skillConditions);
+            } catch (e) {
+                console.error(e)
+                return res.status(400).json({ error: 'Invalid skill format' });
+            }
+        }
+        if (project_desc) {
+            if (Array.isArray(project_desc)) {
+                conditions.project_desc = { [Op.or]: project_desc.map(desc => ({ [Op.like]: `%${desc}%` })) };
+            } else {
+                conditions.project_desc = { [Op.like]: `%${project_desc}%` };
+            }
+        }
+        if (project_size) {
+            if (Array.isArray(project_size)) {
+                conditions.project_size = { [Op.in]: project_size };
+            } else {
+                conditions.project_size = project_size;
+            }
+        }
+    
+        // Build the sorting criteria
+
+        if (sort) {
+            const sortCriteria = Array.isArray(sort) ? sort : [sort];
+            sortCriteria.forEach(criteria => {
+                const [field, direction] = criteria.split(':');
+                if (['exp', 'skill', 'project_size'].includes(field)) {
+                    order.push([field, direction === 'desc' ? 'DESC' : 'ASC']);
+                }
+            });
+        }
+    
+        
+    } catch (error) {
+        console.error(error)
+        
     }
 
     try {
         const post = await Post.findAll({
             where: conditions,
-            order
+            order: order
         });
+        console.log("1")
         console.log(post);
         res.json(post);
     } catch (error) {
+        console.log("2")
         console.log(error);
         res.status(500).json({ error: 'An error occurred while fetching projects' });
     }
