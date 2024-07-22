@@ -7,7 +7,7 @@ const validateToken = (req, res, next) => {
 
   try {
     console.log(accessToken)
-    const validToken = verify(accessToken, "importantsecret");
+    const validToken = verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJzZWVrZXIiLCJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIxNjU3OTkzfQ.qkdqgcIXDUCbzGAqBx7Tb_iJtcvYc6e77-D1gelBxOI", "importantsecret");
     req.user = validToken; //decodes the token's payload and attaches it to the req object
     //user infor from validToken
     
