@@ -175,8 +175,9 @@ router.get('/list', validateToken, async (req, res) => {
         }
         if (skill) {
             try {
-                const skillSet = skill;
-                console.log(typeof skillSet)
+                const skillSet = JSON.parse(skill);
+                console.log(typeof skill, typeof skillSet)
+                console.log(skillSet)
                 const skillConditions = skillSet.map(s => Sequelize.literal(`skill::jsonb @> '"${s}"'`));
                 conditions[Op.and] = skillConditions;
                 console.log(skillConditions);

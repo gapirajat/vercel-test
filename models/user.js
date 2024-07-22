@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     cin: {
       type: DataTypes.STRING,
-      defaultValue: 'pending',
       unique: true
     },
     status: {
