@@ -6,8 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "rewrites": [ { "source": "/(.*)", "destination": "index.js" }
-    ],
     "headers": [
       {
         "source": "/(.*)",
@@ -36,7 +34,13 @@
       {
         "source": "/(.*)",
         "headers": [
-          { "key": "accessToken"}
+          { "key": "accessToken", "value": "*"}
+        ]
+      },
+      {
+        "source": "/(.*)",
+        "headers": [
+          { "key": "Content-Type", "value": "application/json"}
         ]
       }
            
