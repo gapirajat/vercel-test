@@ -36,7 +36,7 @@
       {
         "source": "/(.*)",
         "headers": [
-          { "key": "accessToken", "value": "*"}
+          { "key": "accessToken"}
         ]
       }
            
