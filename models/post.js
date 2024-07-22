@@ -5,6 +5,7 @@ module.exports = (sequelize,DataTypes) => {
     class Post extends Model {   
       static associate(models) {
         Post.belongsTo(models.User, { foreignKey: 'email' });
+        
         Post.hasMany(models.Chat, { foreignKey: 'pid', as: 'postid' });
       }
   
@@ -44,7 +45,7 @@ module.exports = (sequelize,DataTypes) => {
         allowNull: false
       },
        skill:{
-        type: DataTypes.JSON,
+        type: DataTypes.JSONB,
         allowNull: true
        },
        project_desc:{

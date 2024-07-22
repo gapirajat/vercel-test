@@ -115,7 +115,7 @@ router.put("/update/:pid", validateToken, async (req, res) => {
 });
 
 // Route for filtering and sorting list
-router.get('/list', async (req, res) => {
+router.get('/list', validateToken, async (req, res) => {
     const {
         location,
         sector_p,
@@ -129,6 +129,7 @@ router.get('/list', async (req, res) => {
         project_size,
         sort
     } = req.query;
+    console.log(req.query);
 
     // Build the filtering conditions
     const conditions = {};
@@ -169,8 +170,10 @@ router.get('/list', async (req, res) => {
     if (skill) {
         try {
             const skillSet = JSON.parse(skill);
-            const skillConditions = skillSet.map(s => Sequelize.literal(`JSON_CONTAINS(skill, '\"${s}\"', '$')`));
+            console.log(typeof skillSet)
+            const skillConditions = skillSet.map(s => Sequelize.literal(`skill::jsonb @> '"${s}"'`));
             conditions[Op.and] = skillConditions;
+            console.log(skillConditions);
         } catch (e) {
             return res.status(400).json({ error: 'Invalid skill format' });
         }

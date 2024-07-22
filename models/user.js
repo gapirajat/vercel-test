@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(models.Post, { foreignKey: 'email' });
+
       User.hasMany(models.Chat, { foreignKey: 'sender', as: 'send' });
       User.hasMany(models.Chat, { foreignKey: 'receiver', as: 'receive' });
     }
@@ -47,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'pending'
     },
-    company_name: {
+    company_name: {//profile
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'pending'
@@ -64,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'pending'
      },
      company_desc:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      defaultValue: 'pending'
+     },
+     location:{
       type:DataTypes.STRING,
       allowNull:false,
       defaultValue: 'pending'
