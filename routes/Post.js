@@ -88,6 +88,8 @@ router.put("/update/:pid", validateToken, async (req, res) => {
 
         const { id } = req.user;
         const user = await User.findOne({ where: { uid: id } });
+        console.log(project_size);
+        console.log("req.body",req.body);
         const newPost = await Post.update(
             {
                 budget_l,
