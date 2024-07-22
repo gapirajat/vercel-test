@@ -53,7 +53,7 @@ module.exports = (sequelize,DataTypes) => {
         allowNull:false
        },
        project_size:{
-        type:DataTypes.CHAR,
+        type:DataTypes.STRING,
         allowNull: false
        },
        sector_p: {
@@ -68,20 +68,12 @@ module.exports = (sequelize,DataTypes) => {
           model: 'users',
           key: 'email'
         }
-      }, 
-       CreatedAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-      },
-      UpdatedAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
       }
 },{
         sequelize,
         modelName: 'Post',
         tableName: 'posts',
-        timestamps: false
+        timestamps: true
       })
       return Post;
 }
