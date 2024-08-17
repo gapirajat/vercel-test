@@ -3,7 +3,7 @@ const router = express.Router();
 const { Post, User } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const jwt = require('jsonwebtoken');
-const { Sequelize, Transaction } = require('sequelize');
+const { Sequelize, Transaction, where } = require('sequelize');
 const db = require("../models/index");
 const { Op } = require('sequelize');
 
@@ -225,7 +225,12 @@ router.get('/list', validateToken, async (req, res) => {
     try {
         const post = await Post.findAll({
             where: conditions,
-            order: order
+            order: order,
+            include: [{
+                    model: User, 
+                    required: true,
+                    attributes: ['company_name'],
+            }]
         });
         console.log("1")
         console.log(post);
@@ -253,7 +258,14 @@ router.get("/:id", validateToken, async (req, res) => {
     try {
         const user = await User.findOne({ where: { uid: req.user.id } });
         // Find the post by id
-        const post = await Post.findOne({ where: { pid: postId, email: user.email } });
+        const post = await Post.findOne({
+            where: { pid: postId },//, email: user.email
+            include: [{
+                    model: User, 
+                    required: true,
+                    attributes: ['company_name', 'company_desc']
+            }]
+        });
 
         if (!post) {
             return res.status(404).json({ error: "Post not found!" });

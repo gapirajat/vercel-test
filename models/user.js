@@ -6,7 +6,7 @@ const Chat = require('./chatmodel');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Post, { foreignKey: 'email' });
+      User.hasMany(models.Post, { foreignKey: 'email', targetKey: 'email' });
 
       User.hasMany(models.Chat, { foreignKey: 'sender', as: 'send' });
       User.hasMany(models.Chat, { foreignKey: 'receiver', as: 'receive' });
