@@ -10,6 +10,12 @@
       "ssl": {
         "rejectUnauthorized": false
       }
+    },
+    "pool": {
+      "max": 1,
+      "min": 0,
+      "idle": 10000,
+      "acquire": 30000
     }
   },
   "test": {
@@ -23,6 +29,12 @@
       "ssl": {
         "rejectUnauthorized": false
       }
+    },
+    "pool": {
+      "max": 1,
+      "min": 0,
+      "idle": 10000,
+      "acquire": 30000
     }
   },
   "production": {
@@ -36,6 +48,12 @@
       "ssl": {
         "rejectUnauthorized": false
       }
+    },
+    "pool": {
+      "max": 1,
+      "min": 0,
+      "idle": 10000,
+      "acquire": 30000
     }
   }
 }

@@ -9,11 +9,18 @@ const { Op } = require('sequelize');
 
 
 router.post("/create/:newLogin", validateToken, async (req, res) => {
-    const newLogin  = req.params;
-    console.log(req.params);
-    console.log("0")
-    const t = await db.sequelize.transaction();
+
+    const { newLogin } = req.params;
+    console.log("newLogin:", newLogin);
+
+    let t;
+
     try {
+
+        if (newLogin === "true") {
+            t = await db.sequelize.transaction();
+        }
+
         const {
             budget_l,
             budget_h,
@@ -24,53 +31,53 @@ router.post("/create/:newLogin", validateToken, async (req, res) => {
             project_desc,
             location,
             sector_p,
-            project_size } = req.body;
-        console.log(newLogin);
+            project_size
+        } = req.body;
 
         const { id } = req.user;
-        const user = await User.findOne({ where: { uid: id } });
-        console.log(project_size);
-        console.log("req.body",req.body);
-        const newPost = await Post.create(
-            {
-                budget_l,
-                budget_h,
-                duration_l,
-                duration_h,
-                exp,
-                skill,
-                project_desc,
-                location,
-                sector_p,
-                project_size,
-                email: user.email
-            },
-            //transaction if new user 
-            () => {
-                if (newLogin == 'true') {
-                    return '{ transaction: t}';
-                }
-                return;
-            }
-        );
-        console.log(newLogin);
-        if (newLogin == 'true') {
+
+        const user = await User.findOne({
+            where: { uid: id },
+            transaction: t
+        });
+
+        const newPost = await Post.create({
+            budget_l,
+            budget_h,
+            duration_l,
+            duration_h,
+            exp,
+            skill,
+            project_desc,
+            location,
+            sector_p,
+            project_size,
+            email: user.email
+        }, {
+            transaction: t
+        });
+
+        if (t) {
             await t.commit();
         }
-        console.log(t.finished);
-        //user will be redirected to post
-        res.json(await newPost.pid);
+
+        res.json(newPost.pid);
 
     } catch (error) {
-        if (newLogin == 'true') {
+
+        if (t) {
             await t.rollback();
         }
-        console.log(error)
-        res.status(500).json({ error: "An error occurred while creating the post!" });
+
+        console.log(error);
+
+        res.status(500).json({
+            error: "An error occurred while creating the post!"
+        });
 
     }
-});
 
+});
 // ../post/update/1
 router.put("/update/:pid", validateToken, async (req, res) => {
     console.log(req.params.pid);

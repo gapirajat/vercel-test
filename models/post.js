@@ -34,7 +34,7 @@ module.exports = (sequelize,DataTypes) => {
       },
       duration_l:{
         type : DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
       },
       duration_h:{
         type : DataTypes.INTEGER,
