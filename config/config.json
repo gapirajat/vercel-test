@@ -14,7 +14,7 @@
   },
   "test": {
     "username": "postgres.fxgzrgswhivlmtpxqlmr",
-    "password": "",
+    "password": "cbl3fX0EOKDXhcPM",
     "database": "postgres",
     "host": "aws-1-ap-northeast-1.pooler.supabase.com",
     "port": 5432,
@@ -27,7 +27,7 @@
   },
   "production": {
     "username": "postgres.fxgzrgswhivlmtpxqlmr",
-    "password": "YOUR_PASSWORD",
+    "password": "cbl3fX0EOKDXhcPM",
     "database": "postgres",
     "host": "aws-1-ap-northeast-1.pooler.supabase.com",
     "port": 5432,
