@@ -1,26 +1,41 @@
 {
   "development": {
-    "username": "postgres.vribtpkclmbrfzhlqkru",
-    "password": "tZYW3FncnUeEEp8O",
+    "username": "postgres.fxgzrgswhivlmtpxqlmr",
+    "password": "cbl3fX0EOKDXhcPM",
     "database": "postgres",
-    "host": "aws-0-ap-south-1.pooler.supabase.com",
-    "port": 6543,
-    "dialect": "postgres"
+    "host": "aws-1-ap-northeast-1.pooler.supabase.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
-    "username": "postgres.vribtpkclmbrfzhlqkru",
-    "password": "tZYW3FncnUeEEp8O",
+    "username": "postgres.fxgzrgswhivlmtpxqlmr",
+    "password": "",
     "database": "postgres",
-    "host": "aws-0-ap-south-1.pooler.supabase.com",
-    "port": 6543,
-    "dialect": "postgres"
+    "host": "aws-1-ap-northeast-1.pooler.supabase.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   },
   "production": {
-    "username": "postgres.vribtpkclmbrfzhlqkru",
-    "password": "tZYW3FncnUeEEp8O",
+    "username": "postgres.fxgzrgswhivlmtpxqlmr",
+    "password": "YOUR_PASSWORD",
     "database": "postgres",
-    "host": "aws-0-ap-south-1.pooler.supabase.com",
-    "port": 6543,
-    "dialect": "postgres"
+    "host": "aws-1-ap-northeast-1.pooler.supabase.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
